@@ -15,6 +15,7 @@ try:
             Edad INT,
             Ciudad VARCHAR(255)
             DNI VARCHAR(30)
+            AnoDeNacimiento INT
             )
     ''')
 
@@ -26,12 +27,17 @@ try:
             try:
                 #Validar y convertir los datos, para que no haya errores
                 nombre = fila[0]
-                edad = int(fila[1])  #Convertir a entero
+                edad = int(fila[1])   #Convertir a entero
                 ciudad = fila[2]
-                dni = str(fila[3])
+                dni = str(fila[3])    #Convertir a string
+                año_de_nacimiento = int(fila[4])    #Convertir a entero
+                año_de_nacimiento = 1900 + año_de_nacimiento 
 
                 #Insertar cada fila en la tabla
-                cursor.execute('INSERT INTO clientes (Nombre, Edad, Ciudad, DNI) VALUES (?, ?, ?, ?)', (nombre, edad, ciudad, dni))
+                cursor.execute(
+                    'INSERT INTO clientes (Nombre, Edad, Ciudad, DNI, AnoDeNacimiento) VALUES (?, ?, ?, ?, ?)', 
+                    (nombre, edad, ciudad, dni, año_de_nacimiento))
+                
             except ValueError as ve:
                 print(f"Error al convertir datos: {ve}. Fila: {fila}")
             except pyodbc.Error as db_err:
